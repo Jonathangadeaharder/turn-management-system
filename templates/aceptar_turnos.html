@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3">
+    <title>Aceptar turnos</title>
+    <!-- Cargar el css de bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="display-4">Aceptar turnos</h1>
+                <p class="lead">Usted está en la caja {{ mesa }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <!-- Una tabla para mostrar los turnos solicitados con el dni y el servidor -->
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Turno</th>
+                            <th>DNI</th>
+                            <th>Servidor</th>
+                            <th>Aceptar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Iterar sobre la lista de turnos y mostrar cada uno con un boton para aceptar -->
+                        {% for turno, dni, servidor in turnos %}
+                        <tr>
+                            <td>{{ turno }}</td>
+                            <td>{{ dni }}</td>
+                            <td>
+                                {% if servidor == "1" %}
+                                    MegaNet
+                                {% elif servidor == "2" %}
+                                    CobroExpress
+                                {% else %}
+                                    Desconocido
+                                {% endif %}
+                            </td>
+                            <!-- El boton para aceptar debe llamar a la funcion copyToClipboard con dni y la URL -->
+                            <td><button class="btn btn-success" onclick="copyToClipboardAndRedirect('{{ dni }}', '{{ url_for('asignar_turno', mesa=mesa, turno=turno) }}')">Aceptar</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboardAndRedirect(text, url) {
+            const input = document.createElement('input');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            window.location.href = url; // Redirect to the specified URL
+        }
+    </script>
+</body>
+</html>

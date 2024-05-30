@@ -1,0 +1,11 @@
+1. Instala Python 3.7 (Con activacion de PATH (es una opcion cuando instalas))
+2. Pulsa Tecla Windows + R
+3. Entra cmd y pulsa boton Intro
+4. entra: pip install flask
+5. entra pip install pygame
+6. abre el port 5000 en tu maquina
+7. abre app.py para encender el servidor
+8. cree un accesso directo al servidor
+9.Pulsa Tecla windows + R
+10. Entra shell:startup y pulsa boton Intro
+11. En esa carpeta pon un accesso directo al servidor

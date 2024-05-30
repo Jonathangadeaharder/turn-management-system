@@ -1,0 +1,7 @@
+nohup: ignoring input
+[2024-05-30 01:50:50 +0000] [43004] [INFO] Starting gunicorn 22.0.0
+[2024-05-30 01:50:50 +0000] [43004] [INFO] Listening at: http://0.0.0.0:8000 (43004)
+[2024-05-30 01:50:50 +0000] [43004] [INFO] Using worker: gevent
+[2024-05-30 01:50:50 +0000] [43005] [INFO] Booting worker with pid: 43005
+[2024-05-30 01:50:51 +0000] [43006] [INFO] Booting worker with pid: 43006
+[2024-05-30 01:50:51 +0000] [43007] [INFO] Booting worker with pid: 43007

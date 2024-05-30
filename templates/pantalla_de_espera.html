@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pantalla de espera</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .sound-button {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .alert {
+            font-size: 4rem;
+            padding: 30px;
+            width: 90%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Pantalla de espera</h1>
+        <p class="lead">Por favor, espere su turno y diríjase a la caja asignada</p>
+    </div>
+    <div class="text-center">
+        <div id="lastAssignment">
+            <!-- Display the most recent assignment in red -->
+            {% if asignaciones %}
+                <div class="alert alert-info" role="alert" style="color: red;">
+                    DNI: {{ asignaciones[0]['dni'] }} - Caja: {{ asignaciones[0]['mesa'] }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="text-center">
+        <div id="previousAssignments">
+            <!-- Display the next two assignments normally -->
+            {% for i in range(1, 3) %}
+                {% if asignaciones[i] %}
+                    <div class="alert alert-info" role="alert">
+                        DNI: {{ asignaciones[i]['dni'] }} - Caja: {{ asignaciones[i]['mesa'] }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info" role="alert">N/A</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <button class="sound-button" onclick="requestSoundPermission()">Enable Sound</button>
+    <audio id="notificationSound" src="sound.mp3"></audio>
+
+<script>
+let soundEnabled = false;
+
+function requestSoundPermission() {
+    const audio = document.getElementById('notificationSound');
+    audio.play()
+        .then(() => {
+            soundEnabled = true;
+            alert('Sound enabled');
+            document.querySelector('.sound-button').style.display = 'none';
+            startPolling();
+        })
+        .catch(error => {
+            alert('User interaction is required to enable sound.');
+        });
+}
+
+function startPolling() {
+    setInterval(() => {
+        fetch('/check_recent_change')
+            .then(response => response.json())
+            .then(data => {
+                if (data.recent_change && soundEnabled) {
+                    document.getElementById('notificationSound').play();
+                }
+                updateAsignacionesDisplay();
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, 1000);  // Polling every second
+}
+
+function updateAsignacionesDisplay() {
+    fetch('/get_asignaciones')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const lastAssignmentContainer = document.getElementById('lastAssignment');
+                const previousAssignmentsContainer = document.getElementById('previousAssignments');
+                lastAssignmentContainer.innerHTML = `<div class="alert alert-info" role="alert" style="color: red;">DNI: ${data[0].dni} - Caja: ${data[0].mesa}</div>`;
+                previousAssignmentsContainer.innerHTML = '';
+                for (let i = 1; i < 3; i++) {
+                    if (data[i]) {
+                        previousAssignmentsContainer.innerHTML += `<div class="alert alert-info" role="alert">DNI: ${data[i].dni} - Caja: ${data[i].mesa}</div>`;
+                    } else {
+                        previousAssignmentsContainer.innerHTML += '<div class="alert alert-info" role="alert">N/A</div>';
+                    }
+                }
+            }
+        })
+        .catch(error => console.error('Error fetching asignaciones:', error));
+}
+
+</script>
+</body>
+</html>

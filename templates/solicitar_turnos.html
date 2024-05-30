@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Solicitar turnos</title>
+    <!-- Cargar el css de bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="display-4">Solicitar turnos</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <!-- Un boton para elegir el servidor 1 -->
+                <a href="{{ url_for('ingresar_dni', servidor='1') }}" class="btn btn-primary btn-lg" style="padding: 20px 40px;">MegaNet</a>
+            </div>
+            <div class="col-md-6 text-center">
+                <!-- Un boton para elegir el servidor 2 -->
+                <a href="{{ url_for('ingresar_dni', servidor='2') }}" class="btn btn-secondary btn-lg" style="padding: 20px 40px;">CobroExpress</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

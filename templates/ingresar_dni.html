@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Ingresar DNI</title>
+    <!-- Cargar el css de bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<style>
+        .btn-group-vertical .btn {
+            width: 100%;
+            font-size: 2rem; /* Adjust the font size */
+            padding: 20px; /* Adjust the padding */
+            margin-bottom: 10px; /* Adjust the margin */
+        }
+
+        /* Set a fixed width for buttons in the same group */
+        .btn-group .btn {
+            width: 32.5%;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* Override the width for the '0' button */
+        .btn-group .btn.btn-zero {
+            width: 50%; /* Adjust the width as needed */
+        }
+
+        /* Adjust the width of the number pad buttons */
+        .btn-group-number-pad {
+            width: 60%; /* Adjust the width of the number pad */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3 class="display-4">Ingresar DNI</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <!-- Un formulario para enviar el dni y el servidor a la ruta de confirmar_turno -->
+                <form action="{{ url_for('confirmar_turno') }}" method="POST">
+                    <!-- Un input oculto para enviar el servidor -->
+                    <input type="hidden" name="servidor" value="{{ servidor }}">
+                    <!-- Un input para mostrar el dni ingresado -->
+                    <input type="text" name="dni" id="dni" class="form-control form-control-lg" style="font-size: 2rem;" readonly>
+                    <!-- Un teclado de numeros para ingresar el dni -->
+                    <div class="btn-group-vertical mt-3 btn-group-number-pad" role="group">
+                        <div class="btn-group" role="group">
+                            <!-- Cada boton debe agregar el numero correspondiente al input del dni -->
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '1'">1</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '2'">2</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '3'">3</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '4'">4</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '5'">5</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '6'">6</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '7'">7</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '8'">8</button>
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '9'">9</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <!-- Un boton para borrar el ultimo numero del input del dni -->
+                            <button type="button" class="btn btn-danger" onclick="document.getElementById('dni').value = document.getElementById('dni').value.slice(0, -1)"><i class="fas fa-backspace"></i></button>
+                            <!-- Un boton para ingresar el cero al input del dni -->
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('dni').value += '0'">0</button>
+                            <!-- Un boton para enviar el formulario a la ruta de confirmar_turno -->
+                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                        </div>    
+                    </div>    
+                </form>    
+            </div>    
+        </div>    
+    </div>   
+</html>

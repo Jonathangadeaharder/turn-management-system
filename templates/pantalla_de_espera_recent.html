@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3" />
+    <title>Pantalla de espera</title>
+    <!-- Cargar el css de bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .sound-button {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: blue;
+            cursor: pointer;
+        }
+
+        /* Increase the font size, padding, and set a wider width for the alert boxes */
+        .alert {
+            font-size: 4rem; /* You can adjust this value as needed */
+            padding: 30px; /* Increase padding for larger boxes */
+            width: 90%; /* Set a wider width for all alert boxes */
+            margin: 20px auto; /* Add space between boxes and center align them */
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Pantalla de espera</h1>
+        <p class="lead">Por favor, espere su turno y diríjase a la caja asignada</p>
+    </div>
+    <div class="text-center">
+        <!-- Una burbuja grande para mostrar la última asignación de turno a mesa -->
+        <div id="lastAssignment">
+            {% if asignaciones %}
+                {% set ultima = asignaciones[-1] %}
+                <div class="alert alert-info" role="alert" style="color: red;">
+                    DNI: {{ ultima[1] }} - Caja: {{ ultima[3] }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="text-center">
+        <!-- Una lista para mostrar las dos últimas asignaciones anteriores a la última -->
+        <div id="previousAssignments">
+            {% for i in range(2) %}
+                {% if asignaciones[-2-i] %}
+                    {% set anterior = asignaciones[-2-i] %}
+                    <div class="alert alert-info" role="alert">
+                        DNI: {{ anterior[1] }} - Caja: {{ anterior[3] }}
+                    </div>
+                {% else %}
+                    {% set anterior = 'N/A' %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

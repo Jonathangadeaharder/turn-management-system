@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar turno</title>
+    <!-- Cargar el CSS de bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Cargar Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="display-4">Confirmar turno</h1>
+                <p class="lead">Su turno ha sido solicitado con éxito.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <!-- Un mensaje de confirmación con saltos de línea -->
+                <div class="alert alert-success" role="alert" style="font-size: 3rem;">
+                    DNI: {{ dni }} <br>
+                    {% if servidor == "1" %}
+                        MegaNet
+                    {% elif servidor == "2" %}
+                        CobroExpress
+                    {% else %}
+                        Desconocido
+                    {% endif %}
+                    <br>Espere ser llamado
+                </div>
+                <!-- Redirección automática después de 5 segundos -->
+                <script>
+                    setTimeout(function() {
+                        window.location.href = "{{ url_for('solicitar_turnos') }}";
+                    }, 5000); // 5000 milisegundos = 5 segundos
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
